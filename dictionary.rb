@@ -10,12 +10,15 @@ while true
   if user_word == "q"
     break
   else
-    response = HTTP.get("https://api.wordnik.com/v4/word.json/#{user_word}/definitions?limit=200&includeRelated=false&useCanonical=false&includeTags=false&api_key=")
+    response1 = HTTP.get("https://api.wordnik.com/v4/word.json/#{user_word}/definitions?limit=200&includeRelated=false&useCanonical=false&includeTags=false&api_key=")
 
-    # ap response.parse
+    definition = response1.parse[0]["text"]
+    # p definition
 
-    definition = response.parse[0]["text"]
-    pronunciation = response.parse[0]["textProns"]
+    response2 = HTTP.get("https://api.wordnik.com/v4/word.json/#{user_word}/pronunciations?useCanonical=false&limit=50&api_key=")
+
+    pronunciation = response2.parse[0]["raw"]
+    # ap pronunciation
 
     p "#{user_word} - Definition: #{definition} Pronunciation: #{pronunciation}."
   end
